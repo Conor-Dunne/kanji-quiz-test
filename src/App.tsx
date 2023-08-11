@@ -1,35 +1,69 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import "./App.css";
+
+type KanjiData = {
+  kanji: {
+    character: string;
+    stroke: number;
+    meaning: {
+      english: string;
+    },
+    video: {
+      webm: string;
+    }
+  };
+  radical: {
+    character: string;
+    stroke: number;
+    order: number;
+  };
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [data, setData] = useState(null);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(null);
+
+  const [data, setData] = useState<KanjiData[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const url =
+        "https://kanjialive-api.p.rapidapi.com/api/public/kanji/all";
+      const options = {
+        method: "GET",
+        headers: {
+          "X-RapidAPI-Key":
+            "qvdxXAUb8pmshOHY4wYIHyGPBJcup1FBshjjsnGWIhrplfDVLh",
+          "X-RapidAPI-Host": "kanjialive-api.p.rapidapi.com",
+        },
+      };
+
+      try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        console.log(result);
+        setData(result);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+ 
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {data.map((obj, index) => (
+        <div key={index}>
+          <h1>{obj.kanji.character}</h1>
+          <p>{obj.kanji.meaning.english}</p>
+          <div ></div>
+        </div>
+      ))}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
