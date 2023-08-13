@@ -1,33 +1,46 @@
-import React from 'react';
-import kanji from '../public/kanjidic2-en-3.5.0.json';
-const kanjiData: KanjiData = kanji;
+import React, { useEffect, useState } from 'react';
 
-interface KanjiData {
-  characters: Kanji[];
-  // Other properties...
+interface Character {
+  literal: string;
+  readingMeaning: {
+    groups: [{
+      meanings: { lang: string; value: string }[];
+    }]
+    
+  };
 }
 
-interface Kanji {
-  character: string;
-  meaning: string;
-  literal: string; // Adjust the type here
-  // Other properties...
-}
+function App() {
+  const [importedData, setImportedData] = useState<Character[]>([]);
 
-
-
-const KanjiComponent: React.FC = () => {
-
-
-  console.log(kanjiData.characters[1].literal)
+  useEffect(() => {
+    fetch('/kanjidic2-en-3.5.0.json?url')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        if (data && data.characters) {
+          setImportedData(data.characters);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching JSON data:', error);
+      });
+  }, []);
 
   return (
     <div>
-     <p>{kanjiData.characters[13].literal}</p>
+      {importedData.map((character: Character, index: number) => (
+        <div key={index}>
+          <p>Literal: {character.literal}</p>
+          <p>English Meanings: {character.readingMeaning.groups[0].meanings.map(meaning => meaning.value).join(', ')}</p>
+        </div>
+      ))}
     </div>
   );
-};
+}
 
-export default KanjiComponent;
+export default App;
+
+
 
 

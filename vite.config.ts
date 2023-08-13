@@ -12,6 +12,19 @@ export default defineConfig({
       util: 'util'
     }
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
+  },
+  server: {
+    fs: {
+      // Allow serving files from "public" folder
+      allow: ["."],
+    },
+  },
   
   
 })

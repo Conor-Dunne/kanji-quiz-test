@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import XMLDisplay from './App';
-
+import App from './App';
 
 ReactDOM.render(
   <React.StrictMode>
     <div className="container">
-      <XMLDisplay />
+      <App />
     </div>
   </React.StrictMode>,
   document.getElementById('root')
