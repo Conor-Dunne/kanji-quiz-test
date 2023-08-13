@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import './App.css'
 
 interface Character {
   literal: string;
   readingMeaning: {
     groups: [{
       meanings: { lang: string; value: string }[];
-    }]
-    
+      readings: {value: string, type: string}[];
+    }];
+
   };
+  misc: {jlptLevel: number; grade: number};
 }
 
 function App() {
@@ -26,15 +29,19 @@ function App() {
         console.error('Error fetching JSON data:', error);
       });
   }, []);
-
   return (
-    <div>
-      {importedData.map((character: Character, index: number) => (
-        <div key={index}>
-          <p>Literal: {character.literal}</p>
-          <p>English Meanings: {character.readingMeaning.groups[0].meanings.map(meaning => meaning.value).join(', ')}</p>
-        </div>
-      ))}
+    <div className='kanji-wrapper'>
+      {importedData.map((character: Character, index: number) => {
+        if(character.misc.grade === 1) {
+          return (
+            <div key={index}>
+              <p>{character.literal}</p>
+              <p>{character.readingMeaning.groups[0].readings.map(reading => reading.type === "ja_on" ? reading.value : null) }</p>
+              <p>{character.readingMeaning.groups[0].meanings.map(meaning => meaning.value).join(', ')}</p>
+            </div>
+          )
+        } 
+      })}
     </div>
   );
 }

@@ -40,3 +40,9 @@
 .read-the-docs {
   color: #888;
 }
+
+.kanji-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
