@@ -1,8 +1,6 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+body {
+  font-family: Lato,sans-serif;
+  background-color: #f6f6f6;
 }
 
 .logo {
@@ -33,16 +31,32 @@
   }
 }
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+.literal {
+  font-weight: 600;
+  font-size: 1.5rem;
 }
 
 .kanji-wrapper {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 1rem;
+  padding: 10px 5px;
+}
+
+.kanji-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 2px 4px 9px 0px #d4d4d4;
+  border-radius: 3%;
+  width: 150px;
+  padding: 1rem;
+  text-align: center;
+  gap: 1rem;
+  background-color: white;
+}
+
+.kanji-card > p {
+  margin: 0;
 }

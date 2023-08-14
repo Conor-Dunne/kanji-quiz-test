@@ -1,0 +1,25 @@
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    background-color: black;
+    padding: 10px 20px;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.nav__grades{
+    padding: 0.5rem;
+}
+
+.nav__grades:hover {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
