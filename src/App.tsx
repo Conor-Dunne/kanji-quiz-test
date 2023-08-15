@@ -1,22 +1,24 @@
 import { useEffect, useState } from "react";
-import Header from "./assets/Header";
+import Header from "./assets/components/Header";
+import KanjiPage from "./assets/KanjiPage";
+import QuizPage from "./assets/QuizPage";
+import { Character } from "./assets/types/types";
 import "./App.css";
 
-interface Character {
-  literal: string;
-  readingMeaning: {
-    groups: [
-      {
-        meanings: { lang: string; value: string }[];
-        readings: { value: string; type: string }[];
-      }
-    ];
-  };
-  misc: { jlptLevel: number; grade: number };
-}
-
 function App() {
+  const [quizMode, setQuizMode] = useState(false);
+
   const [importedData, setImportedData] = useState<Character[]>([]);
+
+  const [currentGrade, setCurrentGrade] = useState<number>(1);
+
+  function changeGrade(newGrade: number) {
+    setCurrentGrade(newGrade);
+  }
+
+  function switchMode(quizMode: boolean) {
+    setQuizMode(quizMode)
+  }
 
   useEffect(() => {
     fetch("/kanjidic2-en-3.5.0.json?url")
@@ -31,32 +33,12 @@ function App() {
         console.error("Error fetching JSON data:", error);
       });
   }, []);
+
   return (
     <>
-    <Header />
-    <div className="kanji-wrapper">
-      {importedData.map((character: Character, index: number) => {
-        if (character.misc.grade === 1) {
-          return (
-            <div key={index} className="kanji-card">
-              <p className="literal">{character.literal}</p>
-              <p>
-                {character.readingMeaning.groups[0].readings
-                  .flatMap((reading) =>
-                    reading.type === "ja_on" ? [reading.value] : []
-                  )
-                  .join(", ")}
-              </p>
-              <p>
-                {character.readingMeaning.groups[0].meanings
-                  .map((meaning) => meaning.value)
-                  .join(", ")}
-              </p>
-            </div>
-          );
-        }
-      })}
-    </div>
+      <Header newGrade={changeGrade} switchMode={switchMode} quizMode={quizMode} />
+      {!quizMode ? <KanjiPage importedData={importedData} currentGrade={currentGrade} /> : <QuizPage /> }
+
     </>
   );
 }
