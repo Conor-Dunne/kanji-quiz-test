@@ -24,7 +24,6 @@ function App() {
     fetch("/kanjidic2-en-3.5.0.json?url")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data && data.characters) {
           setImportedData(data.characters);
         }
@@ -37,7 +36,7 @@ function App() {
   return (
     <>
       <Header newGrade={changeGrade} switchMode={switchMode} quizMode={quizMode} />
-      {!quizMode ? <KanjiPage importedData={importedData} currentGrade={currentGrade} /> : <QuizPage /> }
+      {!quizMode ? <KanjiPage importedData={importedData} currentGrade={currentGrade} /> : <QuizPage importedData={importedData} currentGrade={currentGrade} /> }
 
     </>
   );

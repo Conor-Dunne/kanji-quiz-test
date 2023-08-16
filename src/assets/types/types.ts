@@ -11,4 +11,8 @@ export interface Character {
     misc: { jlptLevel: number; grade: number };
   }
 
+  export interface KanjiProps {
+    importedData: Character[];
+    currentGrade: number;
+  }
   

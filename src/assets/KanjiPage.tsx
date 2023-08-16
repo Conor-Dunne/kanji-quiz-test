@@ -1,12 +1,9 @@
 import React from "react";
-import { Character } from "./types/types";
+import { Character, KanjiProps } from "./types/types";
 
-interface KanjiPageProps {
-  importedData: Character[];
-  currentGrade: number;
-}
 
-const KanjiPage: React.FC<KanjiPageProps> = ({
+
+const KanjiPage: React.FC<KanjiProps> = ({
   importedData,
   currentGrade,
 }) => {
